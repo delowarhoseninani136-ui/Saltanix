@@ -3,59 +3,95 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Saltanix.cyou - Bangladesh's Premium IoT & Smart Home Store</title>
+<title>SALTANIX.CYOU - Premium IoT Store Demo</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
-body{background:#0a0f0a;color:#fff}
-header{display:flex;justify-content:space-between;align-items:center;padding:20px 5%;background:#000;position:sticky;top:0;z-index:100;border-bottom:1px solid #1a2e1a}
-.logo{font-size:22px;font-weight:800} .logo span{color:#00ff88}
-.btn{border:1px solid #333;padding:10px 22px;border-radius:30px;color:#fff;text-decoration:none;font-size:14px;display:inline-block}
-.btn-green{background:#00ff88;color:#000;border:none;font-weight:600;padding:14px 36px;font-size:16px;border-radius:30px}
-.hero{min-height:80vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:40px 5%;background:radial-gradient(circle at 50% 0%, #143d14 0%, #0a0f0a 60%)}
-.hero h1{font-size:56px;font-weight:800} .hero h1 span{color:#00ff88}
-.hero p{color:#8a9a8a;margin:16px 0 32px}
-.products{padding:60px 5%;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;max-width:1100px;margin:0 auto}
-.card{background:#141f14;border:1px solid #1e331e;border-radius:20px;padding:32px;text-align:center}
-.price{color:#00ff88;font-size:24px;font-weight:800;margin:14px 0;display:block}
-footer{border-top:1px solid #1a2e1a;padding:30px 5%;text-align:center;color:#666;font-size:13px;margin-top:40px}
+body{background:#f5f5f5;color:#111}
+.top-bar{background:#0a0f0a;color:#8a9a8a;text-align:center;padding:8px;font-size:12px}
+header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,0.06)}
+.h-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:14px 4%}
+.logo{font-weight:800;font-size:22px} .logo span{color:#00c96d}
+.cart-btn{position:relative;background:#0a0f0a;color:#fff;border:none;padding:10px 18px;border-radius:24px;cursor:pointer;font-weight:600}
+.cart-count{position:absolute;top:-6px;right:-6px;background:#ff3b30;color:#fff;font-size:11px;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.hero{max-width:1200px;margin:16px auto;background:linear-gradient(135deg,#0a0f0a 0%,#143d14 100%);color:#fff;border-radius:16px;padding:50px 5%;display:flex;justify-content:space-between;align-items:center}
+.hero h1{font-size:42px;line-height:1.1} .hero h1 span{color:#00ff88}
+.btn{padding:12px 26px;border-radius:24px;border:none;cursor:pointer;font-weight:600;text-decoration:none;display:inline-block}
+.btn-green{background:#00ff88;color:#000} .btn-dark{background:#111;color:#fff;width:100%;margin-top:8px}
+.container{max-width:1200px;margin:0 auto;padding:20px 4%}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-top:18px}
+.card{background:#fff;border-radius:16px;overflow:hidden;border:1px solid #eee}
+.card-img{height:180px;background:#f8faf8;display:flex;align-items:center;justify-content:center;font-size:56px}
+.card-body{padding:16px}
+.price{color:#00a652;font-weight:800;font-size:18px} .old-price{color:#999;text-decoration:line-through;font-size:13px;margin-left:6px}
+.opts{display:flex;gap:6px;margin:10px 0;flex-wrap:wrap}
+.opt{border:1px solid #ddd;padding:5px 10px;border-radius:20px;font-size:12px;cursor:pointer;background:#fff}
+.opt.active{background:#111;color:#fff}
+.qty{display:flex;align-items:center;gap:8px;margin:10px 0}
+.qty button{width:28px;height:28px;border:1px solid #ddd;border-radius:50%;background:#fff;cursor:pointer}
+.cart-drawer{position:fixed;top:0;right:-400px;width:360px;height:100%;background:#fff;z-index:200;box-shadow:-10px 0 40px rgba(0,0,0,0.15);transition:0.3s;padding:20px;display:flex;flex-direction:column}
+.cart-drawer.open{right:0}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);display:none;z-index:150}
+.overlay.show{display:block}
+.cart-items{flex:1;overflow:auto;margin:16px 0}
+.cart-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:13px}
+.checkout{background:#25D366;color:#fff;width:100%;padding:14px;border:none;border-radius:10px;font-weight:700;cursor:pointer}
 </style>
 </head>
 <body>
+<div class="top-bar">Free Delivery in Cox's Bazar | 01866917341 | hello@saltanix.cyou</div>
 <header>
+<div class="h-inner">
 <div class="logo">SALTANIX.<span>CYOU</span></div>
-<a class="btn" href="https://wa.me/8801866917341" target="_blank">WhatsApp</a>
+<button class="cart-btn" onclick="toggleCart()">🛒 Cart <span class="cart-count" id="cartCount">0</span></button>
+</div>
 </header>
-
-<section class="hero">
-<h1>Future is <span>Smart</span></h1>
-<p>Bangladesh's Premium IoT & Smart Home Store</p>
-<a class="btn-green" href="#products">Shop Now</a>
-</section>
-
-<section id="products" class="products">
-<div class="card">
-<h3>🔒 Smart Door Lock</h3>
-<p>Fingerprint + App</p>
-<span class="price">৳5,900</span>
-<a class="btn" href="https://wa.me/8801866917341?text=Assalamualaikum, Ami Smart Door Lock order korte chai - Tk5900" target="_blank">WhatsApp Order</a>
+<div class="hero">
+<div>
+<h1>Future is <br><span>Smart</span> Living</h1>
+<p style="color:#8a9a8a;margin:12px 0 20px">Bangladesh's Premium IoT Store</p>
+<a href="#products" class="btn btn-green">Shop Now</a>
 </div>
-<div class="card">
-<h3>💡 Smart WiFi Bulb</h3>
-<p>RGB + Voice Control</p>
-<span class="price">৳1,250</span>
-<a class="btn" href="https://wa.me/8801866917341?text=Ami Smart Bulb order korte chai" target="_blank">WhatsApp Order</a>
+<div style="font-size:90px">🏠</div>
 </div>
-<div class="card">
-<h3>📷 Smart Camera</h3>
-<p>360° + Night Vision</p>
-<span class="price">৳3,400</span>
-<a class="btn" href="https://wa.me/8801866917341?text=Ami Smart Camera order korte chai" target="_blank">WhatsApp Order</a>
+<div class="container" id="products">
+<h2>All Smart Products</h2>
+<div class="grid" id="productGrid"></div>
 </div>
-</section>
-
-<footer>
-© 2026 Saltanix.cyou | Ukhiya, Cox's Bazar<br>
-Contact: 01866917341 | hello@saltanix.cyou
-</footer>
+<div class="overlay" id="overlay" onclick="toggleCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+<div style="display:flex;justify-content:space-between"><h3>Your Cart</h3><button onclick="toggleCart()" style="border:none;background:#f5f5f5;width:30px;height:30px;border-radius:50%;cursor:pointer">✕</button></div>
+<div class="cart-items" id="cartItems">Cart is empty</div>
+<div style="border-top:1px solid #eee;padding-top:12px">
+<div style="display:flex;justify-content:space-between;margin-bottom:10px"><b>Total:</b> <b id="totalPrice">৳0</b></div>
+<button class="checkout" onclick="checkoutWA()">Checkout via WhatsApp (01866917341)</button>
+</div>
+</div>
+<script>
+const products=[
+{id:1,name:"Smart Door Lock",desc:"Fingerprint + App + Card",icon:"🔒",price:5900,oldPrice:7500,colors:["Black","Silver","Golden"],sizes:["Standard","Premium"]},
+{id:2,name:"Smart WiFi Bulb",desc:"RGB 16M Colors + Voice",icon:"💡",price:1250,oldPrice:1800,colors:["White","Warm White"],sizes:["9W","12W","15W"]},
+{id:3,name:"Smart Security Camera",desc:"360° + Night Vision",icon:"📷",price:3400,oldPrice:4500,colors:["White","Black"],sizes:["2MP","3MP"]},
+{id:4,name:"Smart Switch 4 Gang",desc:"WiFi + Touch + Voice",icon:"🔘",price:2800,oldPrice:3500,colors:["White","Black"],sizes:["2 Gang","4 Gang"]},
+{id:5,name:"Smart Plug",desc:"Energy Monitoring",icon:"🔌",price:950,oldPrice:1300,colors:["White"],sizes:["1 Pack","2 Pack"]},
+{id:6,name:"Video Doorbell",desc:"1080p + Two-way Talk",icon:"🔔",price:4200,oldPrice:5500,colors:["Black","Silver"],sizes:["Battery","Wired"]},
+];
+let cart=[];let selections={};
+function renderProducts(){
+const grid=document.getElementById('productGrid');
+grid.innerHTML=products.map(p=>{
+selections[p.id]={color:p.colors[0],size:p.sizes[0],qty:1};
+return `<div class="card"><div class="card-img">${p.icon}</div><div class="card-body"><b>${p.name}</b><br><span style="color:#777;font-size:13px">${p.desc}</span><div style="margin:10px 0"><span class="price">৳${p.price}</span><span class="old-price">৳${p.oldPrice}</span></div><div style="font-size:12px;font-weight:600">Color:</div><div class="opts" id="color-${p.id}">${p.colors.map(c=>`<span class="opt ${c===p.colors[0]?'active':''}" onclick="selectOpt(${p.id},'color','${c}')">${c}</span>`).join('')}</div><div style="font-size:12px;font-weight:600">Size/Model:</div><div class="opts" id="size-${p.id}">${p.sizes.map(s=>`<span class="opt ${s===p.sizes[0]?'active':''}" onclick="selectOpt(${p.id},'size','${s}')">${s}</span>`).join('')}</div><div class="qty"><button onclick="changeQty(${p.id},-1)">-</button><span id="qty-${p.id}">1</span><button onclick="changeQty(${p.id},1)">+</button><span style="margin-left:auto;font-size:12px;color:#666">In Stock</span></div><button class="btn btn-dark" onclick="addToCart(${p.id})">Add to Cart</button></div></div>`}).join('');
+}
+function selectOpt(id,type,val){selections[id][type]=val;document.getElementById(`${type}-${id}`).querySelectorAll('.opt').forEach(el=>{el.classList.toggle('active',el.textContent===val)});}
+function changeQty(id,d){let q=selections[id].qty+d;if(q<1)q=1;if(q>10)q=10;selections[id].qty=q;document.getElementById(`qty-${id}`).textContent=q;}
+function addToCart(id){const p=products.find(x=>x.id===id);const sel=selections[id];const ex=cart.findIndex(c=>c.id===id&&c.color===sel.color&&c.size===sel.size);if(ex>-1){cart[ex].qty+=sel.qty}else{cart.push({id:p.id,name:p.name,price:p.price,color:sel.color,size:sel.size,qty:sel.qty,icon:p.icon})}updateCart();toggleCart(true);}
+function updateCart(){document.getElementById('cartCount').textContent=cart.reduce((s,c)=>s+c.qty,0);const items=document.getElementById('cartItems');let total=0;if(cart.length===0){items.innerHTML='Cart is empty'}else{items.innerHTML=cart.map((c,i)=>{total+=c.price*c.qty;return `<div class="cart-item"><div>${c.icon}</div><div style="flex:1"><b>${c.name}</b><br>${c.color} / ${c.size} x ${c.qty}<br><span style="color:#00a652">৳${c.price*c.qty}</span></div><button onclick="removeItem(${i})" style="border:none;background:none;cursor:pointer">🗑️</button></div>`}).join('');}document.getElementById('totalPrice').textContent='৳'+total;}
+function removeItem(i){cart.splice(i,1);updateCart();}
+function toggleCart(force){const d=document.getElementById('cartDrawer');const o=document.getElementById('overlay');if(force){d.classList.add('open');o.classList.add('show');return}d.classList.toggle('open');o.classList.toggle('show');}
+function checkoutWA(){if(cart.length===0){alert('Cart empty');return}let msg='Assalamualaikum Saltanix%0A%0AI want to order:%0A';cart.forEach(c=>{msg+=`%0A- ${c.name} (${c.color}, ${c.size}) x ${c.qty} = ৳${c.price*c.qty}`});let total=cart.reduce((s,c)=>s+c.price*c.qty,0);msg+=`%0A%0ATotal: ৳${total}`;window.open(`https://wa.me/8801866917341?text=${msg}`,'_blank');}
+renderProducts();
+</script>
 </body>
 </html>
+
+
