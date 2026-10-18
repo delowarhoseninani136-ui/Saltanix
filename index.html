@@ -1,96 +1,1527 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SALTANIX.CYOU - Premium IoT Store Demo</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
-body{background:#f5f5f5;color:#111}
-.top-bar{background:#0a0f0a;color:#8a9a8a;text-align:center;padding:8px;font-size:12px}
-header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,0.06)}
-.h-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:14px 4%}
-.logo{font-weight:800;font-size:22px} .logo span{color:#00c96d}
-.cart-btn{position:relative;background:#0a0f0a;color:#fff;border:none;padding:10px 18px;border-radius:24px;cursor:pointer;font-weight:600}
-.cart-count{position:absolute;top:-6px;right:-6px;background:#ff3b30;color:#fff;font-size:11px;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center}
-.hero{max-width:1200px;margin:16px auto;background:linear-gradient(135deg,#0a0f0a 0%,#143d14 100%);color:#fff;border-radius:16px;padding:50px 5%;display:flex;justify-content:space-between;align-items:center}
-.hero h1{font-size:42px;line-height:1.1} .hero h1 span{color:#00ff88}
-.btn{padding:12px 26px;border-radius:24px;border:none;cursor:pointer;font-weight:600;text-decoration:none;display:inline-block}
-.btn-green{background:#00ff88;color:#000} .btn-dark{background:#111;color:#fff;width:100%;margin-top:8px}
-.container{max-width:1200px;margin:0 auto;padding:20px 4%}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-top:18px}
-.card{background:#fff;border-radius:16px;overflow:hidden;border:1px solid #eee}
-.card-img{height:180px;background:#f8faf8;display:flex;align-items:center;justify-content:center;font-size:56px}
-.card-body{padding:16px}
-.price{color:#00a652;font-weight:800;font-size:18px} .old-price{color:#999;text-decoration:line-through;font-size:13px;margin-left:6px}
-.opts{display:flex;gap:6px;margin:10px 0;flex-wrap:wrap}
-.opt{border:1px solid #ddd;padding:5px 10px;border-radius:20px;font-size:12px;cursor:pointer;background:#fff}
-.opt.active{background:#111;color:#fff}
-.qty{display:flex;align-items:center;gap:8px;margin:10px 0}
-.qty button{width:28px;height:28px;border:1px solid #ddd;border-radius:50%;background:#fff;cursor:pointer}
-.cart-drawer{position:fixed;top:0;right:-400px;width:360px;height:100%;background:#fff;z-index:200;box-shadow:-10px 0 40px rgba(0,0,0,0.15);transition:0.3s;padding:20px;display:flex;flex-direction:column}
-.cart-drawer.open{right:0}
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);display:none;z-index:150}
-.overlay.show{display:block}
-.cart-items{flex:1;overflow:auto;margin:16px 0}
-.cart-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:13px}
-.checkout{background:#25D366;color:#fff;width:100%;padding:14px;border:none;border-radius:10px;font-weight:700;cursor:pointer}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>saltanix.cyou - Online Shopping in Bangladesh</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            saltanix: {
+              orange: '#f57224',
+              orangeDark: '#d95a10',
+              navy: '#0f1568',
+              green: '#25D366',
+              greenDark: '#128C7E',
+              grayBg: '#f5f5f5',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #f57224;
+    }
+    
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .scrollbar-none::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-none {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
 </head>
-<body>
-<div class="top-bar">Free Delivery in Cox's Bazar | 01866917341 | hello@saltanix.cyou</div>
-<header>
-<div class="h-inner">
-<div class="logo">SALTANIX.<span>CYOU</span></div>
-<button class="cart-btn" onclick="toggleCart()">🛒 Cart <span class="cart-count" id="cartCount">0</span></button>
-</div>
-</header>
-<div class="hero">
-<div>
-<h1>Future is <br><span>Smart</span> Living</h1>
-<p style="color:#8a9a8a;margin:12px 0 20px">Bangladesh's Premium IoT Store</p>
-<a href="#products" class="btn btn-green">Shop Now</a>
-</div>
-<div style="font-size:90px">🏠</div>
-</div>
-<div class="container" id="products">
-<h2>All Smart Products</h2>
-<div class="grid" id="productGrid"></div>
-</div>
-<div class="overlay" id="overlay" onclick="toggleCart()"></div>
-<div class="cart-drawer" id="cartDrawer">
-<div style="display:flex;justify-content:space-between"><h3>Your Cart</h3><button onclick="toggleCart()" style="border:none;background:#f5f5f5;width:30px;height:30px;border-radius:50%;cursor:pointer">✕</button></div>
-<div class="cart-items" id="cartItems">Cart is empty</div>
-<div style="border-top:1px solid #eee;padding-top:12px">
-<div style="display:flex;justify-content:space-between;margin-bottom:10px"><b>Total:</b> <b id="totalPrice">৳0</b></div>
-<button class="checkout" onclick="checkoutWA()">Checkout via WhatsApp (01866917341)</button>
-</div>
-</div>
-<script>
-const products=[
-{id:1,name:"Smart Door Lock",desc:"Fingerprint + App + Card",icon:"🔒",price:5900,oldPrice:7500,colors:["Black","Silver","Golden"],sizes:["Standard","Premium"]},
-{id:2,name:"Smart WiFi Bulb",desc:"RGB 16M Colors + Voice",icon:"💡",price:1250,oldPrice:1800,colors:["White","Warm White"],sizes:["9W","12W","15W"]},
-{id:3,name:"Smart Security Camera",desc:"360° + Night Vision",icon:"📷",price:3400,oldPrice:4500,colors:["White","Black"],sizes:["2MP","3MP"]},
-{id:4,name:"Smart Switch 4 Gang",desc:"WiFi + Touch + Voice",icon:"🔘",price:2800,oldPrice:3500,colors:["White","Black"],sizes:["2 Gang","4 Gang"]},
-{id:5,name:"Smart Plug",desc:"Energy Monitoring",icon:"🔌",price:950,oldPrice:1300,colors:["White"],sizes:["1 Pack","2 Pack"]},
-{id:6,name:"Video Doorbell",desc:"1080p + Two-way Talk",icon:"🔔",price:4200,oldPrice:5500,colors:["Black","Silver"],sizes:["Battery","Wired"]},
-];
-let cart=[];let selections={};
-function renderProducts(){
-const grid=document.getElementById('productGrid');
-grid.innerHTML=products.map(p=>{
-selections[p.id]={color:p.colors[0],size:p.sizes[0],qty:1};
-return `<div class="card"><div class="card-img">${p.icon}</div><div class="card-body"><b>${p.name}</b><br><span style="color:#777;font-size:13px">${p.desc}</span><div style="margin:10px 0"><span class="price">৳${p.price}</span><span class="old-price">৳${p.oldPrice}</span></div><div style="font-size:12px;font-weight:600">Color:</div><div class="opts" id="color-${p.id}">${p.colors.map(c=>`<span class="opt ${c===p.colors[0]?'active':''}" onclick="selectOpt(${p.id},'color','${c}')">${c}</span>`).join('')}</div><div style="font-size:12px;font-weight:600">Size/Model:</div><div class="opts" id="size-${p.id}">${p.sizes.map(s=>`<span class="opt ${s===p.sizes[0]?'active':''}" onclick="selectOpt(${p.id},'size','${s}')">${s}</span>`).join('')}</div><div class="qty"><button onclick="changeQty(${p.id},-1)">-</button><span id="qty-${p.id}">1</span><button onclick="changeQty(${p.id},1)">+</button><span style="margin-left:auto;font-size:12px;color:#666">In Stock</span></div><button class="btn btn-dark" onclick="addToCart(${p.id})">Add to Cart</button></div></div>`}).join('');
-}
-function selectOpt(id,type,val){selections[id][type]=val;document.getElementById(`${type}-${id}`).querySelectorAll('.opt').forEach(el=>{el.classList.toggle('active',el.textContent===val)});}
-function changeQty(id,d){let q=selections[id].qty+d;if(q<1)q=1;if(q>10)q=10;selections[id].qty=q;document.getElementById(`qty-${id}`).textContent=q;}
-function addToCart(id){const p=products.find(x=>x.id===id);const sel=selections[id];const ex=cart.findIndex(c=>c.id===id&&c.color===sel.color&&c.size===sel.size);if(ex>-1){cart[ex].qty+=sel.qty}else{cart.push({id:p.id,name:p.name,price:p.price,color:sel.color,size:sel.size,qty:sel.qty,icon:p.icon})}updateCart();toggleCart(true);}
-function updateCart(){document.getElementById('cartCount').textContent=cart.reduce((s,c)=>s+c.qty,0);const items=document.getElementById('cartItems');let total=0;if(cart.length===0){items.innerHTML='Cart is empty'}else{items.innerHTML=cart.map((c,i)=>{total+=c.price*c.qty;return `<div class="cart-item"><div>${c.icon}</div><div style="flex:1"><b>${c.name}</b><br>${c.color} / ${c.size} x ${c.qty}<br><span style="color:#00a652">৳${c.price*c.qty}</span></div><button onclick="removeItem(${i})" style="border:none;background:none;cursor:pointer">🗑️</button></div>`}).join('');}document.getElementById('totalPrice').textContent='৳'+total;}
-function removeItem(i){cart.splice(i,1);updateCart();}
-function toggleCart(force){const d=document.getElementById('cartDrawer');const o=document.getElementById('overlay');if(force){d.classList.add('open');o.classList.add('show');return}d.classList.toggle('open');o.classList.toggle('show');}
-function checkoutWA(){if(cart.length===0){alert('Cart empty');return}let msg='Assalamualaikum Saltanix%0A%0AI want to order:%0A';cart.forEach(c=>{msg+=`%0A- ${c.name} (${c.color}, ${c.size}) x ${c.qty} = ৳${c.price*c.qty}`});let total=cart.reduce((s,c)=>s+c.price*c.qty,0);msg+=`%0A%0ATotal: ৳${total}`;window.open(`https://wa.me/8801866917341?text=${msg}`,'_blank');}
-renderProducts();
-</script>
+<body class="bg-[#f5f5f5] font-sans text-gray-800 antialiased selection:bg-saltanix-orange selection:text-white pb-16 md:pb-0">
+
+  <!-- TOP ANNOUNCEMENT BAR -->
+  <div class="bg-gray-100 text-xs text-gray-600 border-b border-gray-200 hidden md:block">
+    <div class="max-w-7xl mx-auto px-4 py-1.5 flex justify-between items-center">
+      <div class="flex items-center space-x-6">
+        <span class="font-bold text-saltanix-navy"><i class="fa-solid fa-globe mr-1"></i> saltanix.cyou</span>
+        <a href="https://wa.me/8801866917341" target="_blank" class="hover:text-green-600 font-semibold transition"><i class="fa-brands fa-whatsapp text-green-500 mr-1"></i> WhatsApp: 01866917341</a>
+        <a href="#" class="hover:text-saltanix-orange transition">TRACK MY ORDER</a>
+      </div>
+      <div class="flex items-center space-x-4">
+        <span class="text-saltanix-orange font-semibold"><i class="fa-solid fa-truck-fast mr-1"></i> Express Delivery Across Bangladesh</span>
+        <span>|</span>
+        <button onclick="toggleAuthModal()" class="hover:text-saltanix-orange font-medium transition">Signup / Login</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN STICKY HEADER -->
+  <header class="bg-white sticky top-0 z-40 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-2 md:gap-6">
+      
+      <!-- Logo -->
+      <a href="#" onclick="resetFilters()" class="flex items-center gap-1.5 shrink-0">
+        <div class="bg-gradient-to-r from-saltanix-orange to-red-600 text-white font-black text-xl md:text-2xl tracking-tight px-3 py-1 rounded-xl shadow-sm">
+          saltanix<span class="text-yellow-300">.cyou</span>
+        </div>
+      </a>
+
+      <!-- Search Bar -->
+      <div class="flex-1 max-w-3xl relative">
+        <div class="flex items-center rounded-xl border-2 border-saltanix-orange overflow-hidden bg-gray-50 focus-within:bg-white focus-within:shadow-md transition">
+          <select id="searchCategory" onchange="renderProducts()" class="hidden md:block bg-gray-100 text-xs text-gray-700 px-3 py-2.5 border-r outline-none cursor-pointer">
+            <option value="All">All Categories</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Fashion">Fashion</option>
+            <option value="Gadgets">Gadgets</option>
+            <option value="Lifestyle">Lifestyle</option>
+            <option value="Home Decor">Home Decor</option>
+          </select>
+          <input 
+            type="text" 
+            id="searchInput" 
+            oninput="handleSearchInput(this.value)" 
+            placeholder="Search products on saltanix.cyou..." 
+            class="w-full px-3 py-2 text-sm bg-transparent outline-none text-gray-800"
+          />
+          <button onclick="renderProducts()" class="bg-saltanix-orange text-white px-5 py-2 hover:bg-saltanix-orangeDark transition flex items-center justify-center">
+            <i class="fa-solid fa-magnifying-glass text-base"></i>
+          </button>
+        </div>
+
+        <!-- Search Auto-Suggestions Dropdown -->
+        <div id="searchSuggestions" class="hidden absolute left-0 right-0 top-full mt-1 bg-white border border-gray-200 rounded-xl shadow-xl z-50 overflow-hidden text-sm">
+        </div>
+      </div>
+
+      <!-- Action Icons: WhatsApp Direct, Wishlist & Cart -->
+      <div class="flex items-center space-x-3 md:space-x-5 shrink-0">
+        
+        <!-- Direct WhatsApp Quick Chat -->
+        <a href="https://wa.me/8801866917341" target="_blank" class="p-2 text-green-600 hover:text-green-700 transition flex flex-col items-center">
+          <i class="fa-brands fa-whatsapp text-xl md:text-2xl"></i>
+          <span class="text-[10px] hidden md:inline font-medium mt-0.5">Order Info</span>
+        </a>
+
+        <!-- Wishlist -->
+        <button onclick="toggleWishlistModal()" class="relative p-2 text-gray-700 hover:text-saltanix-orange transition flex flex-col items-center">
+          <i class="fa-regular fa-heart text-xl md:text-2xl"></i>
+          <span class="text-[10px] hidden md:inline font-medium mt-0.5">Wishlist</span>
+          <span id="wishlistBadge" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full h-4 min-w-[16px] px-1 flex items-center justify-center hidden">0</span>
+        </button>
+
+        <!-- Cart Trigger -->
+        <button onclick="toggleCartDrawer()" class="relative p-2 text-gray-700 hover:text-saltanix-orange transition flex flex-col items-center">
+          <i class="fa-solid fa-cart-shopping text-xl md:text-2xl"></i>
+          <span class="text-[10px] hidden md:inline font-medium mt-0.5">Cart</span>
+          <span id="cartBadge" class="absolute -top-1 -right-1 bg-saltanix-orange text-white text-[10px] font-bold rounded-full h-4 min-w-[16px] px-1 flex items-center justify-center">0</span>
+        </button>
+
+      </div>
+    </div>
+
+    <!-- CATEGORY NAVIGATION STRIP -->
+    <nav class="bg-white border-t border-gray-100 hidden md:block text-sm">
+      <div class="max-w-7xl mx-auto px-4 flex items-center space-x-6 overflow-x-auto py-2 scrollbar-none">
+        <button onclick="filterByCategory('All')" class="category-btn text-saltanix-orange font-semibold hover:text-saltanix-orange transition shrink-0">All Products</button>
+        <button onclick="filterByCategory('Electronics')" class="category-btn text-gray-600 hover:text-saltanix-orange transition shrink-0"><i class="fa-solid fa-laptop text-xs mr-1"></i> Electronics</button>
+        <button onclick="filterByCategory('Fashion')" class="category-btn text-gray-600 hover:text-saltanix-orange transition shrink-0"><i class="fa-solid fa-shirt text-xs mr-1"></i> Fashion</button>
+        <button onclick="filterByCategory('Gadgets')" class="category-btn text-gray-600 hover:text-saltanix-orange transition shrink-0"><i class="fa-solid fa-headphones text-xs mr-1"></i> Gadgets</button>
+        <button onclick="filterByCategory('Lifestyle')" class="category-btn text-gray-600 hover:text-saltanix-orange transition shrink-0"><i class="fa-solid fa-glasses text-xs mr-1"></i> Lifestyle</button>
+        <button onclick="filterByCategory('Home Decor')" class="category-btn text-gray-600 hover:text-saltanix-orange transition shrink-0"><i class="fa-solid fa-house text-xs mr-1"></i> Home Decor</button>
+        <button onclick="filterByCategory('Flash Sale')" class="category-btn text-red-600 font-bold hover:text-red-700 transition shrink-0 flex items-center">
+          <i class="fa-solid fa-bolt text-yellow-500 mr-1 animate-pulse"></i> Flash Sale
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO BANNER SLIDER -->
+  <section class="max-w-7xl mx-auto px-2 sm:px-4 mt-3">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-3">
+      
+      <!-- Main Auto-Slider -->
+      <div class="lg:col-span-3 relative rounded-2xl overflow-hidden shadow-md group h-48 sm:h-64 md:h-80 bg-gray-900">
+        <div id="carouselContainer" class="w-full h-full relative">
+          <!-- Slides rendered by JS -->
+        </div>
+
+        <!-- Carousel Controls -->
+        <button onclick="prevSlide()" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm transition opacity-0 group-hover:opacity-100">
+          <i class="fa-solid fa-chevron-left text-sm"></i>
+        </button>
+        <button onclick="nextSlide()" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm transition opacity-0 group-hover:opacity-100">
+          <i class="fa-solid fa-chevron-right text-sm"></i>
+        </button>
+
+        <!-- Carousel Indicators -->
+        <div id="carouselDots" class="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-2 z-10"></div>
+      </div>
+
+      <!-- Side Promotional Cards -->
+      <div class="hidden lg:flex flex-col gap-3 h-80">
+        <div class="flex-1 bg-gradient-to-r from-saltanix-navy to-indigo-900 text-white rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden">
+          <div class="relative z-10">
+            <span class="bg-yellow-400 text-black font-extrabold text-[10px] px-2 py-0.5 rounded uppercase">saltanix.cyou</span>
+            <h3 class="text-lg font-bold mt-1">Direct WhatsApp Order</h3>
+            <p class="text-xs text-gray-200 mt-0.5">Fast delivery & quick support via WhatsApp</p>
+          </div>
+          <a href="https://wa.me/8801866917341" target="_blank" class="relative z-10 bg-green-500 hover:bg-green-600 text-white font-bold text-xs py-2 px-3 rounded-lg w-max transition flex items-center gap-1.5 shadow">
+            <i class="fa-brands fa-whatsapp text-sm"></i> Chat 01866917341
+          </a>
+          <i class="fa-brands fa-whatsapp text-8xl text-white/10 absolute -bottom-3 -right-3"></i>
+        </div>
+
+        <div class="flex-1 bg-gradient-to-r from-saltanix-orange to-red-600 text-white rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden">
+          <div class="relative z-10">
+            <span class="bg-black/30 text-white font-extrabold text-[10px] px-2 py-0.5 rounded uppercase">Promo Voucher</span>
+            <h3 class="text-xl font-black mt-1">SALTANIX100</h3>
+            <p class="text-xs text-orange-100">Get ৳100 OFF on your first order</p>
+          </div>
+          <button onclick="copyPromoCode('SALTANIX100')" class="relative z-10 bg-black text-white font-bold text-xs py-1.5 px-3 rounded-lg w-max hover:bg-gray-900 transition flex items-center gap-1">
+            <i class="fa-regular fa-copy text-xs"></i> Copy Code
+          </button>
+          <i class="fa-solid fa-ticket text-7xl text-white/10 absolute -bottom-2 -right-2"></i>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- QUICK CATEGORY ICONS -->
+  <section class="max-w-7xl mx-auto px-2 sm:px-4 mt-6">
+    <div class="bg-white rounded-2xl shadow-sm p-4 grid grid-cols-4 sm:grid-cols-8 gap-3 text-center">
+      <button onclick="filterByCategory('Electronics')" class="flex flex-col items-center group">
+        <div class="w-12 h-12 rounded-2xl bg-orange-100 text-saltanix-orange flex items-center justify-center text-xl group-hover:scale-110 transition shadow-sm">
+          <i class="fa-solid fa-laptop"></i>
+        </div>
+        <span class="text-xs text-gray-700 font-medium mt-2">Electronics</span>
+      </button>
+
+      <button onclick="filterByCategory('Fashion')" class="flex flex-col items-center group">
+        <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl group-hover:scale-110 transition shadow-sm">
+          <i class="fa-solid fa-shirt"></i>
+        </div>
+        <span class="text-xs text-gray-700 font-medium mt-2">Fashion</span>
+      </button>
+
+      <button onclick="filterByCategory('Gadgets')" class="flex flex-col items-center group">
+        <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl group-hover:scale-110 transition shadow-sm">
+          <i class="fa-solid fa-headphones"></i>
+        </div>
+        <span class="text-xs text-gray-700 font-medium mt-2">Gadgets</span>
+      </button>
+
+      <button onclick="filterByCategory('Lifestyle')" class="flex flex-col items-center group">
+        <div class="w-12 h-12 rounded-2xl bg-pink-100 text-pink-600 flex items-center justify-center text-xl group-hover:scale-110 transition shadow-sm">
+          <i class="fa-solid fa-glasses"></i>
+        </div>
+        <span class="text-xs text-gray-700 font-medium mt-2">Lifestyle</span>
+      </button>
+
+      <button onclick="filterByCategory('Home Decor')" class="flex flex-col items-center group">
+        <div class="w-12 h-12 rounded-2xl bg-teal-100 text-teal-600 flex items-center justify-center text-xl group-hover:scale-110 transition shadow-sm">
+          <i class="fa-solid fa-house font-bold"></i>
+        </div>
+        <span class="text-xs text-gray-700 font-medium mt-2">Home Decor</span>
+      </button>
+
+      <button onclick="applyFilterSpecial('freeShipping')" class="flex flex-col items-center group">
+        <div class="w-12 h-12 rounded-2xl bg-green-100 text-green-600 flex items-center justify-center text-xl group-hover:scale-110 transition shadow-sm">
+          <i class="fa-solid fa-truck-fast"></i>
+        </div>
+        <span class="text-xs text-gray-700 font-medium mt-2">Free Delivery</span>
+      </button>
+
+      <button onclick="filterByCategory('Flash Sale')" class="flex flex-col items-center group">
+        <div class="w-12 h-12 rounded-2xl bg-yellow-100 text-yellow-600 flex items-center justify-center text-xl group-hover:scale-110 transition shadow-sm">
+          <i class="fa-solid fa-bolt"></i>
+        </div>
+        <span class="text-xs text-gray-700 font-medium mt-2">Flash Sale</span>
+      </button>
+
+      <a href="https://wa.me/8801866917341" target="_blank" class="flex flex-col items-center group">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-green-600 flex items-center justify-center text-xl group-hover:scale-110 transition shadow-sm">
+          <i class="fa-brands fa-whatsapp text-2xl"></i>
+        </div>
+        <span class="text-xs text-gray-700 font-medium mt-2">WhatsApp</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- FLASH SALE SECTION WITH LIVE COUNTDOWN -->
+  <section class="max-w-7xl mx-auto px-2 sm:px-4 mt-6">
+    <div class="bg-white rounded-2xl shadow-sm p-4 border-t-4 border-saltanix-orange">
+      <div class="flex flex-wrap items-center justify-between pb-3 border-b border-gray-100 mb-4 gap-2">
+        <div class="flex items-center space-x-3">
+          <h2 class="text-lg sm:text-xl font-bold text-gray-900 flex items-center">
+            <i class="fa-solid fa-bolt text-saltanix-orange mr-2 text-xl"></i> FLASH SALE
+          </h2>
+          <span class="text-xs font-semibold bg-red-100 text-red-600 px-2 py-0.5 rounded">Ending In</span>
+          <!-- Timer Display -->
+          <div class="flex items-center space-x-1 font-mono text-xs font-bold text-white">
+            <span id="timerHours" class="bg-gray-900 px-2 py-1 rounded">05</span> :
+            <span id="timerMinutes" class="bg-gray-900 px-2 py-1 rounded">18</span> :
+            <span id="timerSeconds" class="bg-gray-900 px-2 py-1 rounded">40</span>
+          </div>
+        </div>
+        <button onclick="filterByCategory('Flash Sale')" class="text-xs sm:text-sm font-bold text-saltanix-orange border border-saltanix-orange px-3 py-1 rounded-xl hover:bg-saltanix-orange hover:text-white transition">
+          SHOP ALL DEALS
+        </button>
+      </div>
+
+      <!-- Flash Sale Cards Carousel Horizontal Scroll -->
+      <div id="flashSaleContainer" class="flex gap-4 overflow-x-auto pb-2 scrollbar-none">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CATALOG & FILTERS SECTION -->
+  <section class="max-w-7xl mx-auto px-2 sm:px-4 mt-8 mb-12">
+    <div class="flex flex-col lg:flex-row gap-6">
+      
+      <!-- SIDEBAR FILTERS (Desktop) -->
+      <aside class="w-full lg:w-64 bg-white p-4 rounded-2xl shadow-sm h-fit shrink-0">
+        <div class="flex justify-between items-center pb-3 border-b border-gray-100 mb-4">
+          <h3 class="font-bold text-gray-800 flex items-center"><i class="fa-solid fa-filter mr-2 text-saltanix-orange"></i> Filters</h3>
+          <button onclick="resetFilters()" class="text-xs text-saltanix-orange hover:underline font-semibold">Reset All</button>
+        </div>
+
+        <!-- Filter: Categories -->
+        <div class="mb-5">
+          <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Category</h4>
+          <div class="space-y-1.5 text-sm">
+            <label class="flex items-center space-x-2 cursor-pointer text-gray-700 hover:text-saltanix-orange">
+              <input type="radio" name="catFilter" value="All" checked onchange="filterByCategory(this.value)" class="text-saltanix-orange focus:ring-saltanix-orange">
+              <span>All Products</span>
+            </label>
+            <label class="flex items-center space-x-2 cursor-pointer text-gray-700 hover:text-saltanix-orange">
+              <input type="radio" name="catFilter" value="Electronics" onchange="filterByCategory(this.value)" class="text-saltanix-orange focus:ring-saltanix-orange">
+              <span>Electronics</span>
+            </label>
+            <label class="flex items-center space-x-2 cursor-pointer text-gray-700 hover:text-saltanix-orange">
+              <input type="radio" name="catFilter" value="Fashion" onchange="filterByCategory(this.value)" class="text-saltanix-orange focus:ring-saltanix-orange">
+              <span>Fashion</span>
+            </label>
+            <label class="flex items-center space-x-2 cursor-pointer text-gray-700 hover:text-saltanix-orange">
+              <input type="radio" name="catFilter" value="Gadgets" onchange="filterByCategory(this.value)" class="text-saltanix-orange focus:ring-saltanix-orange">
+              <span>Gadgets</span>
+            </label>
+            <label class="flex items-center space-x-2 cursor-pointer text-gray-700 hover:text-saltanix-orange">
+              <input type="radio" name="catFilter" value="Lifestyle" onchange="filterByCategory(this.value)" class="text-saltanix-orange focus:ring-saltanix-orange">
+              <span>Lifestyle</span>
+            </label>
+            <label class="flex items-center space-x-2 cursor-pointer text-gray-700 hover:text-saltanix-orange">
+              <input type="radio" name="catFilter" value="Home Decor" onchange="filterByCategory(this.value)" class="text-saltanix-orange focus:ring-saltanix-orange">
+              <span>Home Decor</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Filter: Price Range -->
+        <div class="mb-5 border-t border-gray-100 pt-4">
+          <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Price Range (৳)</h4>
+          <div class="flex items-center space-x-2">
+            <input type="number" id="minPrice" placeholder="Min" class="w-1/2 px-2 py-1.5 border border-gray-200 rounded text-xs outline-none focus:border-saltanix-orange">
+            <span class="text-gray-400">-</span>
+            <input type="number" id="maxPrice" placeholder="Max" class="w-1/2 px-2 py-1.5 border border-gray-200 rounded text-xs outline-none focus:border-saltanix-orange">
+          </div>
+          <button onclick="applyPriceFilter()" class="w-full mt-2 bg-gray-100 text-gray-700 font-bold text-xs py-1.5 rounded-lg hover:bg-saltanix-orange hover:text-white transition">
+            Apply Price
+          </button>
+        </div>
+
+        <!-- WhatsApp Support Banner -->
+        <div class="bg-green-50 border border-green-200 p-3 rounded-xl text-center">
+          <i class="fa-brands fa-whatsapp text-2xl text-green-600 mb-1"></i>
+          <h5 class="text-xs font-bold text-gray-800">Need Help Ordering?</h5>
+          <p class="text-[11px] text-gray-600 mt-0.5">Order directly on WhatsApp 01866917341</p>
+          <a href="https://wa.me/8801866917341" target="_blank" class="mt-2 block bg-green-500 hover:bg-green-600 text-white text-xs font-bold py-1.5 rounded-lg transition">
+            Chat on WhatsApp
+          </a>
+        </div>
+      </aside>
+
+      <!-- PRODUCTS GRID -->
+      <main class="flex-1">
+        <!-- Top Toolbar -->
+        <div class="bg-white p-3 rounded-2xl shadow-sm mb-4 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 class="text-lg font-bold text-gray-800" id="catalogTitle">Explore Products</h2>
+            <p class="text-xs text-gray-500" id="resultCount">Showing all products</p>
+          </div>
+
+          <!-- Sort Dropdown -->
+          <div class="flex items-center space-x-2">
+            <label for="sortSelect" class="text-xs text-gray-500 font-medium">Sort By:</label>
+            <select id="sortSelect" onchange="sortProducts(this.value)" class="bg-gray-50 border border-gray-200 text-xs text-gray-700 rounded-xl px-2.5 py-1.5 outline-none focus:border-saltanix-orange">
+              <option value="default">Popularity</option>
+              <option value="priceLow">Price: Low to High</option>
+              <option value="priceHigh">Price: High to Low</option>
+              <option value="rating">Highest Rated</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Product Cards Container -->
+        <div id="productsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
+          <!-- Rendered dynamically by JS -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden bg-white rounded-2xl shadow-sm p-12 text-center my-6">
+          <i class="fa-solid fa-box-open text-5xl text-gray-300 mb-3"></i>
+          <h3 class="text-lg font-bold text-gray-700">No Products Found!</h3>
+          <p class="text-xs text-gray-500 mt-1">Try adjusting your search or filters on saltanix.cyou.</p>
+          <button onclick="resetFilters()" class="mt-4 bg-saltanix-orange text-white text-xs font-bold px-4 py-2 rounded-xl hover:bg-saltanix-orangeDark transition">Clear All Filters</button>
+        </div>
+      </main>
+
+    </div>
+  </section>
+
+  <!-- PRODUCT DETAIL MODAL -->
+  <div id="productModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="bg-white w-full max-w-4xl rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col md:flex-row relative transform scale-95 transition-transform duration-300" id="productModalContent">
+      <button onclick="closeProductModal()" class="absolute top-3 right-3 bg-gray-100 hover:bg-gray-200 text-gray-700 w-8 h-8 rounded-full flex items-center justify-center z-10">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <!-- Modal Gallery -->
+      <div class="w-full md:w-1/2 p-6 bg-gray-50 flex flex-col justify-between border-b md:border-b-0 md:border-r border-gray-100">
+        <div class="h-64 sm:h-80 rounded-2xl overflow-hidden mb-4 bg-white shadow-inner flex items-center justify-center relative">
+          <img id="modalMainImg" src="" alt="Product" class="max-h-full max-w-full object-contain p-2">
+          <span id="modalDiscountBadge" class="absolute top-3 left-3 bg-saltanix-orange text-white text-xs font-bold px-2 py-1 rounded-lg"></span>
+        </div>
+        <div id="modalThumbnails" class="flex gap-2 justify-center overflow-x-auto">
+          <!-- Thumbnails rendered dynamically -->
+        </div>
+      </div>
+
+      <!-- Modal Info -->
+      <div class="w-full md:w-1/2 p-6 overflow-y-auto flex flex-col justify-between">
+        <div>
+          <span id="modalCategory" class="text-xs font-bold uppercase text-saltanix-orange tracking-wider"></span>
+          <h2 id="modalTitle" class="text-xl font-bold text-gray-900 mt-1"></h2>
+
+          <!-- Rating & Brand -->
+          <div class="flex items-center space-x-3 mt-2 text-xs">
+            <div class="flex items-center text-yellow-400" id="modalRatingStars"></div>
+            <span class="text-gray-400">|</span>
+            <span class="text-gray-600"><strong id="modalReviews"></strong> Reviews</span>
+            <span class="text-gray-400">|</span>
+            <span class="text-gray-600">Brand: <strong id="modalBrand"></strong></span>
+          </div>
+
+          <!-- Price Block -->
+          <div class="mt-4 p-3 bg-orange-50 rounded-2xl border border-orange-100">
+            <div class="flex items-baseline space-x-3">
+              <span class="text-2xl font-black text-saltanix-orange" id="modalPrice"></span>
+              <span class="text-sm text-gray-400 line-through" id="modalOldPrice"></span>
+            </div>
+            <p class="text-[11px] text-green-700 mt-1 font-semibold"><i class="fa-solid fa-circle-check"></i> In Stock - Express Shipping via WhatsApp</p>
+          </div>
+
+          <!-- Variations -->
+          <div class="mt-4">
+            <label class="block text-xs font-bold text-gray-700 mb-1">Color / Variant:</label>
+            <div class="flex flex-wrap gap-2" id="modalVariants"></div>
+          </div>
+
+          <!-- Quantity Selector -->
+          <div class="mt-4 flex items-center space-x-4">
+            <label class="text-xs font-bold text-gray-700">Quantity:</label>
+            <div class="flex items-center border border-gray-300 rounded-xl overflow-hidden">
+              <button onclick="changeModalQty(-1)" class="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold">-</button>
+              <span id="modalQtyVal" class="px-4 py-1 text-sm font-bold">1</span>
+              <button onclick="changeModalQty(1)" class="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-6 flex flex-col sm:flex-row gap-3">
+          <button onclick="addModalItemToCart()" class="flex-1 bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 rounded-xl transition shadow-md flex items-center justify-center gap-2 text-sm">
+            <i class="fa-solid fa-cart-plus"></i> Add to Cart
+          </button>
+          <button onclick="buyNowModalItem()" class="flex-1 bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-xl transition shadow-md flex items-center justify-center gap-2 text-sm">
+            <i class="fa-brands fa-whatsapp text-lg"></i> Order via WhatsApp
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CART SIDEBAR DRAWER -->
+  <div id="cartDrawerOverlay" onclick="toggleCartDrawer()" class="fixed inset-0 bg-black/50 z-50 opacity-0 pointer-events-none transition-opacity"></div>
+  <div id="cartDrawer" class="fixed top-0 right-0 bottom-0 w-full max-w-md bg-white z-50 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+    <!-- Header -->
+    <div class="p-4 bg-saltanix-navy text-white flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <i class="fa-solid fa-bag-shopping text-saltanix-orange text-xl"></i>
+        <h3 class="font-bold text-lg">Your Cart (saltanix.cyou)</h3>
+      </div>
+      <button onclick="toggleCartDrawer()" class="text-white/80 hover:text-white p-1">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+    </div>
+
+    <!-- Items List -->
+    <div id="cartItemsList" class="flex-1 p-4 overflow-y-auto divide-y divide-gray-100">
+      <!-- Dynamic cart items -->
+    </div>
+
+    <!-- Summary & Checkout Footer -->
+    <div class="p-4 bg-gray-50 border-t border-gray-200">
+      <!-- Voucher Input -->
+      <div class="mb-3 flex gap-2">
+        <input type="text" id="voucherCode" placeholder="Promo (SALTANIX100)" class="flex-1 px-3 py-2 text-xs border border-gray-300 rounded-xl uppercase outline-none focus:border-saltanix-orange">
+        <button onclick="applyVoucher()" class="bg-gray-800 text-white font-bold text-xs px-3 py-2 rounded-xl hover:bg-black transition">Apply</button>
+      </div>
+
+      <!-- Price Calculations -->
+      <div class="space-y-1.5 text-xs text-gray-600 mb-4">
+        <div class="flex justify-between">
+          <span>Subtotal</span>
+          <span id="cartSubtotal" class="font-semibold text-gray-800">৳0</span>
+        </div>
+        <div class="flex justify-between">
+          <span>Delivery Charge</span>
+          <span id="cartDelivery" class="font-semibold text-gray-800">৳60</span>
+        </div>
+        <div class="flex justify-between text-green-600 hidden" id="voucherDiscountRow">
+          <span>Voucher Discount</span>
+          <span id="cartDiscount">-৳100</span>
+        </div>
+        <div class="flex justify-between text-sm font-bold text-gray-900 border-t pt-2">
+          <span>Total Amount</span>
+          <span id="cartGrandTotal" class="text-saltanix-orange font-black">৳0</span>
+        </div>
+      </div>
+
+      <button onclick="proceedToCheckout()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-xl transition shadow-md flex items-center justify-center gap-2 text-sm">
+        <i class="fa-brands fa-whatsapp text-lg"></i> Proceed to Order via WhatsApp
+      </button>
+    </div>
+  </div>
+
+  <!-- CHECKOUT MODAL FLOW FOR WHATSAPP -->
+  <div id="checkoutModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 opacity-0 pointer-events-none transition-opacity">
+    <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col relative">
+      <div class="bg-green-600 text-white p-4 flex justify-between items-center">
+        <h3 class="font-bold text-lg flex items-center gap-2"><i class="fa-brands fa-whatsapp text-xl"></i> WhatsApp Direct Checkout</h3>
+        <button onclick="closeCheckoutModal()" class="text-gray-200 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+
+      <form id="checkoutForm" onsubmit="sendWhatsAppOrder(event)" class="p-6 overflow-y-auto space-y-4 text-xs sm:text-sm">
+        
+        <div>
+          <h4 class="font-bold text-gray-800 mb-2 border-b pb-1 text-sm">Customer Delivery Details</h4>
+          <div class="space-y-3">
+            <div>
+              <label class="block text-gray-600 mb-1">Full Name *</label>
+              <input type="text" id="custName" required placeholder="e.g. Rahim Chowdhury" class="w-full p-2.5 border border-gray-300 rounded-xl outline-none focus:border-green-500">
+            </div>
+            <div>
+              <label class="block text-gray-600 mb-1">Mobile Phone Number *</label>
+              <input type="tel" id="custPhone" required placeholder="e.g. 01866917341" class="w-full p-2.5 border border-gray-300 rounded-xl outline-none focus:border-green-500">
+            </div>
+            <div>
+              <label class="block text-gray-600 mb-1">Full Shipping Address *</label>
+              <textarea id="custAddress" required rows="2" placeholder="House/Road no, Area, Thana, District" class="w-full p-2.5 border border-gray-300 rounded-xl outline-none focus:border-green-500"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Options -->
+        <div>
+          <h4 class="font-bold text-gray-800 mb-2 border-b pb-1 text-sm">Payment Method</h4>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="border-2 border-green-500 rounded-xl p-3 flex flex-col items-center justify-center cursor-pointer bg-green-50">
+              <input type="radio" name="paymentMethod" value="Cash on Delivery" checked class="hidden">
+              <i class="fa-solid fa-hand-holding-dollar text-green-600 text-xl mb-1"></i>
+              <span class="font-bold text-xs text-gray-800">Cash on Delivery</span>
+            </label>
+
+            <label class="border border-gray-200 rounded-xl p-3 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50">
+              <input type="radio" name="paymentMethod" value="bKash / Mobile Banking" class="hidden">
+              <i class="fa-solid fa-mobile-screen text-pink-600 text-xl mb-1"></i>
+              <span class="font-bold text-xs text-gray-800">bKash / Nagad</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 space-y-1">
+          <div class="flex justify-between text-gray-600"><span>Payable Amount:</span> <strong id="checkoutPayable" class="text-saltanix-orange text-base">৳0</strong></div>
+          <p class="text-[11px] text-gray-500">Clicking below will open WhatsApp with your itemized order details for quick processing by <strong>01866917341</strong>.</p>
+        </div>
+
+        <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-xl transition text-base shadow-lg flex items-center justify-center gap-2">
+          <i class="fa-brands fa-whatsapp text-xl"></i> Confirm Order via WhatsApp
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- WISHLIST MODAL -->
+  <div id="wishlistModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 opacity-0 pointer-events-none transition-opacity">
+    <div class="bg-white w-full max-w-xl rounded-3xl shadow-2xl overflow-hidden max-h-[80vh] flex flex-col">
+      <div class="bg-saltanix-orange text-white p-4 flex justify-between items-center">
+        <h3 class="font-bold text-lg flex items-center gap-2"><i class="fa-solid fa-heart"></i> My Wishlist</h3>
+        <button onclick="toggleWishlistModal()" class="text-white hover:opacity-80"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <div id="wishlistItemsList" class="p-4 overflow-y-auto flex-1 divide-y divide-gray-100">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTH / LOGIN MODAL -->
+  <div id="authModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 opacity-0 pointer-events-none transition-opacity">
+    <div class="bg-white w-full max-w-sm rounded-3xl shadow-2xl p-6 relative">
+      <button onclick="toggleAuthModal()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      
+      <div class="text-center mb-6">
+        <div class="inline-block bg-saltanix-orange text-white font-black text-xl px-3 py-1 rounded-xl mb-2">saltanix.cyou</div>
+        <h3 class="text-lg font-bold text-gray-800">Welcome Back</h3>
+        <p class="text-xs text-gray-500">Login or Create account</p>
+      </div>
+
+      <form onsubmit="handleAuthSubmit(event)" class="space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">Phone Number or Email</label>
+          <input type="text" required placeholder="018xxxxxxxx or name@email.com" class="w-full p-2.5 border border-gray-300 rounded-xl text-xs outline-none focus:border-saltanix-orange">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">Password</label>
+          <input type="password" required placeholder="••••••••" class="w-full p-2.5 border border-gray-300 rounded-xl text-xs outline-none focus:border-saltanix-orange">
+        </div>
+        <button type="submit" class="w-full bg-saltanix-orange hover:bg-saltanix-orangeDark text-white font-bold py-2.5 rounded-xl text-sm transition">
+          LOGIN
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-gray-900 text-gray-400 text-xs py-10 mt-12 border-t border-gray-800 hidden md:block">
+    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <div class="text-white font-black text-xl mb-3">saltanix<span class="text-saltanix-orange">.cyou</span></div>
+        <p class="text-gray-400 leading-relaxed">Your trusted online shopping destination in Bangladesh with quick delivery and WhatsApp ordering support.</p>
+        <div class="mt-4 flex items-center space-x-3 text-lg text-white">
+          <a href="https://wa.me/8801866917341" target="_blank" class="hover:text-green-500"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="#" class="hover:text-blue-500"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#" class="hover:text-pink-500"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+      <div>
+        <h4 class="text-white font-bold text-sm mb-3">Customer Service</h4>
+        <ul class="space-y-2">
+          <li><a href="#" class="hover:text-white">Help Center</a></li>
+          <li><a href="#" class="hover:text-white">How to Buy on WhatsApp</a></li>
+          <li><a href="#" class="hover:text-white">Returns & Refunds</a></li>
+          <li><a href="https://wa.me/8801866917341" target="_blank" class="hover:text-white">Contact Us: 01866917341</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-white font-bold text-sm mb-3">Categories</h4>
+        <ul class="space-y-2">
+          <li><a href="#" onclick="filterByCategory('Electronics')" class="hover:text-white">Electronics</a></li>
+          <li><a href="#" onclick="filterByCategory('Fashion')" class="hover:text-white">Fashion</a></li>
+          <li><a href="#" onclick="filterByCategory('Gadgets')" class="hover:text-white">Gadgets</a></li>
+          <li><a href="#" onclick="filterByCategory('Lifestyle')" class="hover:text-white">Lifestyle</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-white font-bold text-sm mb-3">Payment Methods</h4>
+        <p class="mb-3">Cash on Delivery, bKash, Nagad available for all orders across BD.</p>
+        <div class="bg-gray-800 p-3 rounded-xl border border-gray-700">
+          <span class="text-white font-bold block">WhatsApp Order Hotline:</span>
+          <a href="https://wa.me/8801866917341" target="_blank" class="text-green-400 font-bold text-sm hover:underline">+8801866917341</a>
+        </div>
+      </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-4 mt-8 pt-4 border-t border-gray-800 text-center text-gray-500">
+      © 2026 saltanix.cyou. All Rights Reserved.
+    </div>
+  </footer>
+
+  <!-- MOBILE BOTTOM NAVIGATION -->
+  <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40 md:hidden flex justify-around py-2 shadow-lg">
+    <button onclick="resetFilters()" class="flex flex-col items-center text-saltanix-orange">
+      <i class="fa-solid fa-house text-lg"></i>
+      <span class="text-[10px] font-medium mt-0.5">Home</span>
+    </button>
+    <button onclick="filterByCategory('Flash Sale')" class="flex flex-col items-center text-gray-600 hover:text-saltanix-orange">
+      <i class="fa-solid fa-bolt text-lg"></i>
+      <span class="text-[10px] font-medium mt-0.5">Flash Sale</span>
+    </button>
+    <button onclick="toggleCartDrawer()" class="flex flex-col items-center text-gray-600 hover:text-saltanix-orange relative">
+      <i class="fa-solid fa-cart-shopping text-lg"></i>
+      <span class="text-[10px] font-medium mt-0.5">Cart</span>
+    </button>
+    <a href="https://wa.me/8801866917341" target="_blank" class="flex flex-col items-center text-green-600">
+      <i class="fa-brands fa-whatsapp text-xl"></i>
+      <span class="text-[10px] font-medium mt-0.5">WhatsApp</span>
+    </a>
+    <button onclick="toggleAuthModal()" class="flex flex-col items-center text-gray-600 hover:text-saltanix-orange">
+      <i class="fa-solid fa-user text-lg"></i>
+      <span class="text-[10px] font-medium mt-0.5">Account</span>
+    </button>
+  </div>
+
+  <!-- TOAST NOTIFICATION STACK -->
+  <div id="toastContainer" class="fixed bottom-20 md:bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- JAVASCRIPT APPLICATION LOGIC -->
+  <script>
+    // --- WHATSAPP NUMBER CONFIGURATION ---
+    const WHATSAPP_NUMBER = "8801866917341";
+
+    // --- PRODUCTS DATA ---
+    const PRODUCTS = [
+      {
+        id: 1,
+        title: "Wireless ANC Noise Cancelling Headphones",
+        category: "Gadgets",
+        price: 1850,
+        oldPrice: 2800,
+        rating: 4.8,
+        reviews: 210,
+        brand: "Saltanix",
+        image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=80",
+        thumbnails: [
+          "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=80"
+        ],
+        isFlashSale: true,
+        stockSoldPct: 82,
+        freeShipping: true,
+        variants: ["Matte Black", "Silver"]
+      },
+      {
+        id: 2,
+        title: "Ultra AMOLED Smart Watch with Calling",
+        category: "Electronics",
+        price: 2450,
+        oldPrice: 3990,
+        rating: 4.9,
+        reviews: 312,
+        brand: "Saltanix Tech",
+        image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=80",
+        thumbnails: [
+          "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=80"
+        ],
+        isFlashSale: true,
+        stockSoldPct: 91,
+        freeShipping: true,
+        variants: ["Black Strap", "Orange Silicone"]
+      },
+      {
+        id: 3,
+        title: "Men's Casual Slim Fit Polo T-Shirt",
+        category: "Fashion",
+        price: 590,
+        oldPrice: 990,
+        rating: 4.6,
+        reviews: 145,
+        brand: "StyleCraft",
+        image: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=500&auto=format&fit=crop&q=80",
+        thumbnails: [
+          "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=500&auto=format&fit=crop&q=80"
+        ],
+        isFlashSale: false,
+        stockSoldPct: 40,
+        freeShipping: false,
+        variants: ["Navy Blue", "Maroon", "Black"]
+      },
+      {
+        id: 4,
+        title: "UV Protection Polarized Sunglasses",
+        category: "Lifestyle",
+        price: 780,
+        oldPrice: 1500,
+        rating: 4.7,
+        reviews: 89,
+        brand: "RayOptics",
+        image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500&auto=format&fit=crop&q=80",
+        thumbnails: [
+          "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500&auto=format&fit=crop&q=80"
+        ],
+        isFlashSale: true,
+        stockSoldPct: 65,
+        freeShipping: true,
+        variants: ["Black Frame", "Gold Frame"]
+      },
+      {
+        id: 5,
+        title: "Modern Wooden Ambient Desk Table Lamp",
+        category: "Home Decor",
+        price: 1250,
+        oldPrice: 1950,
+        rating: 4.8,
+        reviews: 76,
+        brand: "Lumina",
+        image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500&auto=format&fit=crop&q=80",
+        thumbnails: [
+          "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500&auto=format&fit=crop&q=80"
+        ],
+        isFlashSale: false,
+        stockSoldPct: 30,
+        freeShipping: false,
+        variants: ["Warm Light", "White Light"]
+      },
+      {
+        id: 6,
+        title: "Ergonomic Mechanical Gaming Keyboard RGB",
+        category: "Electronics",
+        price: 2100,
+        oldPrice: 3200,
+        rating: 4.9,
+        reviews: 420,
+        brand: "KeyPro",
+        image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=500&auto=format&fit=crop&q=80",
+        thumbnails: [
+          "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=500&auto=format&fit=crop&q=80"
+        ],
+        isFlashSale: true,
+        stockSoldPct: 88,
+        freeShipping: true,
+        variants: ["Blue Switch", "Red Switch"]
+      }
+    ];
+
+    // --- CAROUSEL SLIDES DATA ---
+    const HERO_SLIDES = [
+      {
+        title: "WELCOME TO SALTANIX.CYOU",
+        subtitle: "Order Premium Products Directly on WhatsApp!",
+        bg: "from-saltanix-orange to-red-600",
+        badge: "HOT DEALS",
+        code: "SALTANIX100"
+      },
+      {
+        title: "FAST DELIVERY ACROSS BD",
+        subtitle: "WhatsApp Support: 01866917341",
+        bg: "from-green-600 to-emerald-800",
+        badge: "WHATSAPP CHECKOUT",
+        code: "FREEBD"
+      },
+      {
+        title: "NEW GADGETS & LIFESTYLE",
+        subtitle: "Best prices on top trending accessories",
+        bg: "from-saltanix-navy to-indigo-900",
+        badge: "LIMITED STOCK",
+        code: "TECH2026"
+      }
+    ];
+
+    // --- STATE MANAGEMENT ---
+    let currentSlide = 0;
+    let carouselTimer = null;
+    let currentCategory = 'All';
+    let cart = [];
+    let wishlist = [];
+    let activeModalProduct = null;
+    let modalSelectedQty = 1;
+    let modalSelectedVariant = '';
+    let appliedDiscount = 0;
+
+    // --- INITIALIZATION ---
+    window.onload = function() {
+      initCarousel();
+      startFlashSaleTimer();
+      renderFlashSale();
+      renderProducts();
+      updateCartUI();
+      updateWishlistUI();
+    };
+
+    // --- HERO CAROUSEL ---
+    function initCarousel() {
+      const container = document.getElementById('carouselContainer');
+      const dots = document.getElementById('carouselDots');
+      
+      container.innerHTML = HERO_SLIDES.map((slide, idx) => `
+        <div class="carousel-slide absolute inset-0 transition-opacity duration-700 bg-gradient-to-r ${slide.bg} p-6 sm:p-10 text-white flex flex-col justify-center ${idx === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0'}">
+          <span class="bg-black/30 text-yellow-300 font-extrabold text-[10px] sm:text-xs px-2.5 py-1 rounded w-max tracking-widest uppercase mb-2">${slide.badge}</span>
+          <h1 class="text-2xl sm:text-4xl font-black leading-tight drop-shadow-md">${slide.title}</h1>
+          <p class="text-xs sm:text-base text-gray-100 mt-2 max-w-md">${slide.subtitle}</p>
+          <div class="mt-4 sm:mt-6 flex items-center space-x-3">
+            <button onclick="filterByCategory('Flash Sale')" class="bg-white text-saltanix-orange font-bold text-xs sm:text-sm px-5 py-2.5 rounded-xl hover:bg-gray-100 shadow-md transition">Shop Now</button>
+            <a href="https://wa.me/8801866917341" target="_blank" class="bg-green-500 hover:bg-green-600 text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl transition flex items-center gap-1">
+              <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp Us
+            </a>
+          </div>
+        </div>
+      `).join('');
+
+      dots.innerHTML = HERO_SLIDES.map((_, idx) => `
+        <button onclick="goToSlide(${idx})" class="dot-btn w-2.5 h-2.5 rounded-full transition-all ${idx === 0 ? 'bg-white w-6' : 'bg-white/50'}"></button>
+      `).join('');
+
+      startCarouselAutoPlay();
+    }
+
+    function startCarouselAutoPlay() {
+      if (carouselTimer) clearInterval(carouselTimer);
+      carouselTimer = setInterval(nextSlide, 4000);
+    }
+
+    function goToSlide(index) {
+      const slides = document.querySelectorAll('.carousel-slide');
+      const dots = document.querySelectorAll('.dot-btn');
+
+      slides.forEach((slide, idx) => {
+        if (idx === index) {
+          slide.classList.remove('opacity-0', 'z-0');
+          slide.classList.add('opacity-100', 'z-10');
+        } else {
+          slide.classList.remove('opacity-100', 'z-10');
+          slide.classList.add('opacity-0', 'z-0');
+        }
+      });
+
+      dots.forEach((dot, idx) => {
+        if (idx === index) {
+          dot.classList.add('bg-white', 'w-6');
+          dot.classList.remove('bg-white/50');
+        } else {
+          dot.classList.remove('bg-white', 'w-6');
+          dot.classList.add('bg-white/50');
+        }
+      });
+
+      currentSlide = index;
+    }
+
+    function nextSlide() {
+      let next = (currentSlide + 1) % HERO_SLIDES.length;
+      goToSlide(next);
+    }
+
+    function prevSlide() {
+      let prev = (currentSlide - 1 + HERO_SLIDES.length) % HERO_SLIDES.length;
+      goToSlide(prev);
+    }
+
+    // --- FLASH SALE COUNTDOWN TIMER ---
+    function startFlashSaleTimer() {
+      let duration = 5 * 3600 + 18 * 60 + 40;
+      setInterval(() => {
+        if (duration <= 0) duration = 24 * 3600;
+        duration--;
+
+        const h = Math.floor(duration / 3600);
+        const m = Math.floor((duration % 3600) / 60);
+        const s = duration % 60;
+
+        document.getElementById('timerHours').innerText = String(h).padStart(2, '0');
+        document.getElementById('timerMinutes').innerText = String(m).padStart(2, '0');
+        document.getElementById('timerSeconds').innerText = String(s).padStart(2, '0');
+      }, 1000);
+    }
+
+    // --- RENDER FLASH SALE ---
+    function renderFlashSale() {
+      const container = document.getElementById('flashSaleContainer');
+      const flashItems = PRODUCTS.filter(p => p.isFlashSale);
+
+      container.innerHTML = flashItems.map(p => `
+        <div onclick="openProductModal(${p.id})" class="min-w-[160px] sm:min-w-[190px] max-w-[190px] bg-white border border-gray-100 rounded-2xl p-2.5 shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between group">
+          <div>
+            <div class="h-32 sm:h-36 rounded-xl overflow-hidden bg-gray-50 relative mb-2">
+              <img src="${p.image}" alt="${p.title}" class="w-full h-full object-contain group-hover:scale-105 transition duration-300">
+              <span class="absolute top-1 right-1 bg-saltanix-orange text-white text-[10px] font-extrabold px-1.5 py-0.5 rounded-lg">
+                -${Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100)}%
+              </span>
+            </div>
+            <h4 class="text-xs text-gray-800 font-medium line-clamp-2">${p.title}</h4>
+          </div>
+
+          <div class="mt-2">
+            <div class="text-sm font-black text-saltanix-orange">৳${p.price}</div>
+            <div class="text-[11px] text-gray-400 line-through">৳${p.oldPrice}</div>
+            <div class="mt-2">
+              <div class="w-full bg-orange-100 h-2 rounded-full overflow-hidden">
+                <div class="bg-saltanix-orange h-full rounded-full" style="width: ${p.stockSoldPct}%"></div>
+              </div>
+              <span class="text-[9px] text-gray-500 font-bold block mt-0.5">${p.stockSoldPct}% Sold</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // --- RENDER PRODUCT CATALOG ---
+    function renderProducts(itemsToRender = null) {
+      const grid = document.getElementById('productsGrid');
+      const empty = document.getElementById('emptyState');
+      const countEl = document.getElementById('resultCount');
+
+      let list = itemsToRender || PRODUCTS;
+
+      // Filter by Search
+      const searchQuery = document.getElementById('searchInput').value.trim().toLowerCase();
+      if (searchQuery) {
+        list = list.filter(p => p.title.toLowerCase().includes(searchQuery) || p.category.toLowerCase().includes(searchQuery));
+      }
+
+      // Filter by Category
+      const selectedCat = currentCategory !== 'All' ? currentCategory : document.getElementById('searchCategory').value;
+      if (selectedCat && selectedCat !== 'All') {
+        if (selectedCat === 'Flash Sale') {
+          list = list.filter(p => p.isFlashSale);
+        } else {
+          list = list.filter(p => p.category === selectedCat);
+        }
+      }
+
+      countEl.innerText = `Showing ${list.length} products`;
+
+      if (list.length === 0) {
+        grid.innerHTML = '';
+        empty.classList.remove('hidden');
+        return;
+      }
+
+      empty.classList.add('hidden');
+
+      grid.innerHTML = list.map(p => `
+        <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl border border-gray-100 transition duration-300 flex flex-col justify-between overflow-hidden group">
+          <!-- Thumbnail -->
+          <div onclick="openProductModal(${p.id})" class="cursor-pointer relative">
+            <div class="h-40 sm:h-48 bg-gray-50 flex items-center justify-center p-2 overflow-hidden">
+              <img src="${p.image}" alt="${p.title}" class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-300">
+            </div>
+
+            <!-- Badges -->
+            <div class="absolute top-2 left-2 flex flex-col gap-1">
+              <span class="bg-saltanix-navy text-white text-[9px] font-black px-1.5 py-0.5 rounded-md shadow">saltanix</span>
+              ${p.freeShipping ? `<span class="bg-green-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md shadow">Free Delivery</span>` : ''}
+            </div>
+
+            <span class="absolute top-2 right-2 bg-saltanix-orange text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">
+              -${Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100)}%
+            </span>
+          </div>
+
+          <!-- Product Info -->
+          <div class="p-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 onclick="openProductModal(${p.id})" class="text-xs sm:text-sm font-semibold text-gray-800 hover:text-saltanix-orange cursor-pointer line-clamp-2 transition">${p.title}</h3>
+              
+              <div class="flex items-center space-x-1 mt-1">
+                <div class="text-yellow-400 text-[10px]">
+                  <i class="fa-solid fa-star"></i>
+                </div>
+                <span class="text-xs font-bold text-gray-700">${p.rating}</span>
+                <span class="text-[10px] text-gray-400">(${p.reviews})</span>
+              </div>
+            </div>
+
+            <div class="mt-3 border-t border-gray-50 pt-2 flex items-center justify-between">
+              <div>
+                <div class="text-base font-black text-saltanix-orange">৳${p.price}</div>
+                <div class="text-[10px] text-gray-400 line-through">৳${p.oldPrice}</div>
+              </div>
+
+              <div class="flex items-center space-x-1">
+                <button onclick="toggleWishlistItem(${p.id})" class="p-2 text-gray-400 hover:text-red-500 transition">
+                  <i class="${wishlist.includes(p.id) ? 'fa-solid fa-heart text-red-500' : 'fa-regular fa-heart'}"></i>
+                </button>
+
+                <button onclick="addToCart(${p.id})" class="bg-orange-100 hover:bg-saltanix-orange text-saltanix-orange hover:text-white p-2 rounded-xl transition shadow-sm" title="Add to Cart">
+                  <i class="fa-solid fa-cart-plus text-sm"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // --- SEARCH AUTO SUGGESTIONS ---
+    function handleSearchInput(val) {
+      const suggestionsBox = document.getElementById('searchSuggestions');
+      const query = val.trim().toLowerCase();
+
+      if (!query) {
+        suggestionsBox.classList.add('hidden');
+        renderProducts();
+        return;
+      }
+
+      const matches = PRODUCTS.filter(p => p.title.toLowerCase().includes(query) || p.category.toLowerCase().includes(query)).slice(0, 5);
+
+      if (matches.length > 0) {
+        suggestionsBox.innerHTML = matches.map(p => `
+          <div onclick="selectSearchSuggestion('${p.title.replace(/'/g, "\\'")}')" class="p-2.5 hover:bg-gray-50 cursor-pointer flex items-center space-x-3 border-b border-gray-100 last:border-none">
+            <img src="${p.image}" class="w-8 h-8 object-contain rounded bg-gray-100">
+            <div>
+              <div class="text-xs font-semibold text-gray-800">${p.title}</div>
+              <div class="text-[10px] text-saltanix-orange font-bold">৳${p.price}</div>
+            </div>
+          </div>
+        `).join('');
+        suggestionsBox.classList.remove('hidden');
+      } else {
+        suggestionsBox.classList.add('hidden');
+      }
+
+      renderProducts();
+    }
+
+    function selectSearchSuggestion(title) {
+      document.getElementById('searchInput').value = title;
+      document.getElementById('searchSuggestions').classList.add('hidden');
+      renderProducts();
+    }
+
+    // --- FILTER ACTIONS ---
+    function filterByCategory(cat) {
+      currentCategory = cat;
+      document.getElementById('catalogTitle').innerText = cat === 'All' ? 'Explore Products' : `${cat} Items`;
+      renderProducts();
+    }
+
+    function applyFilterSpecial(type) {
+      if (type === 'freeShipping') {
+        renderProducts(PRODUCTS.filter(p => p.freeShipping));
+        document.getElementById('catalogTitle').innerText = "Free Shipping Products";
+      }
+    }
+
+    function applyPriceFilter() {
+      const min = parseFloat(document.getElementById('minPrice').value) || 0;
+      const max = parseFloat(document.getElementById('maxPrice').value) || Infinity;
+
+      const filtered = PRODUCTS.filter(p => p.price >= min && p.price <= max);
+      renderProducts(filtered);
+    }
+
+    function sortProducts(criteria) {
+      let list = [...PRODUCTS];
+      if (criteria === 'priceLow') {
+        list.sort((a, b) => a.price - b.price);
+      } else if (criteria === 'priceHigh') {
+        list.sort((a, b) => b.price - a.price);
+      } else if (criteria === 'rating') {
+        list.sort((a, b) => b.rating - a.rating);
+      }
+      renderProducts(list);
+    }
+
+    function resetFilters() {
+      currentCategory = 'All';
+      document.getElementById('searchInput').value = '';
+      document.getElementById('searchCategory').value = 'All';
+      document.getElementById('minPrice').value = '';
+      document.getElementById('maxPrice').value = '';
+      document.getElementById('sortSelect').value = 'default';
+      document.getElementById('catalogTitle').innerText = 'Explore Products';
+      renderProducts();
+    }
+
+    // --- PRODUCT MODAL ---
+    function openProductModal(id) {
+      const p = PRODUCTS.find(prod => prod.id === id);
+      if (!p) return;
+
+      activeModalProduct = p;
+      modalSelectedQty = 1;
+      modalSelectedVariant = p.variants[0] || '';
+
+      document.getElementById('modalMainImg').src = p.image;
+      document.getElementById('modalCategory').innerText = p.category;
+      document.getElementById('modalTitle').innerText = p.title;
+      document.getElementById('modalPrice').innerText = `৳${p.price}`;
+      document.getElementById('modalOldPrice').innerText = `৳${p.oldPrice}`;
+      document.getElementById('modalDiscountBadge').innerText = `-${Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100)}%`;
+      document.getElementById('modalReviews').innerText = p.reviews;
+      document.getElementById('modalBrand').innerText = p.brand;
+      document.getElementById('modalQtyVal').innerText = modalSelectedQty;
+
+      // Stars
+      const starsContainer = document.getElementById('modalRatingStars');
+      starsContainer.innerHTML = Array.from({length: 5}, (_, i) => 
+        `<i class="${i < Math.floor(p.rating) ? 'fa-solid fa-star' : 'fa-regular fa-star'}"></i>`
+      ).join('') + `<span class="text-xs text-gray-700 ml-1 font-bold">${p.rating}</span>`;
+
+      // Thumbnails
+      const thumbsContainer = document.getElementById('modalThumbnails');
+      thumbsContainer.innerHTML = (p.thumbnails || [p.image]).map(img => `
+        <img onclick="document.getElementById('modalMainImg').src='${img}'" src="${img}" class="w-12 h-12 object-contain border rounded-xl cursor-pointer hover:border-saltanix-orange bg-white p-1">
+      `).join('');
+
+      // Variants
+      const variantsContainer = document.getElementById('modalVariants');
+      variantsContainer.innerHTML = p.variants.map((v, i) => `
+        <button onclick="selectModalVariant('${v}', this)" class="modal-var-btn text-xs font-semibold px-3 py-1.5 border rounded-xl transition ${i === 0 ? 'border-saltanix-orange text-saltanix-orange bg-orange-50' : 'border-gray-200 text-gray-700'}">
+          ${v}
+        </button>
+      `).join('');
+
+      const modal = document.getElementById('productModal');
+      const content = document.getElementById('productModalContent');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      content.classList.remove('scale-95');
+      content.classList.add('scale-100');
+    }
+
+    function closeProductModal() {
+      const modal = document.getElementById('productModal');
+      const content = document.getElementById('productModalContent');
+      content.classList.remove('scale-100');
+      content.classList.add('scale-95');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+    }
+
+    function selectModalVariant(variant, btn) {
+      modalSelectedVariant = variant;
+      document.querySelectorAll('.modal-var-btn').forEach(b => {
+        b.classList.remove('border-saltanix-orange', 'text-saltanix-orange', 'bg-orange-50');
+        b.classList.add('border-gray-200', 'text-gray-700');
+      });
+      btn.classList.add('border-saltanix-orange', 'text-saltanix-orange', 'bg-orange-50');
+    }
+
+    function changeModalQty(delta) {
+      modalSelectedQty = Math.max(1, modalSelectedQty + delta);
+      document.getElementById('modalQtyVal').innerText = modalSelectedQty;
+    }
+
+    function addModalItemToCart() {
+      if (!activeModalProduct) return;
+      addToCart(activeModalProduct.id, modalSelectedQty, modalSelectedVariant);
+      closeProductModal();
+    }
+
+    function buyNowModalItem() {
+      if (!activeModalProduct) return;
+      addToCart(activeModalProduct.id, modalSelectedQty, modalSelectedVariant);
+      closeProductModal();
+      proceedToCheckout();
+    }
+
+    // --- CART FUNCTIONALITY ---
+    function addToCart(productId, qty = 1, variant = '') {
+      const product = PRODUCTS.find(p => p.id === productId);
+      if (!product) return;
+
+      const selectedVar = variant || product.variants[0] || 'Standard';
+      const existing = cart.find(item => item.id === productId && item.variant === selectedVar);
+
+      if (existing) {
+        existing.qty += qty;
+      } else {
+        cart.push({
+          ...product,
+          qty: qty,
+          variant: selectedVar
+        });
+      }
+
+      updateCartUI();
+      showToast(`Added "${product.title.substring(0, 20)}..." to Cart!`);
+    }
+
+    function updateCartQty(id, variant, delta) {
+      const item = cart.find(i => i.id === id && i.variant === variant);
+      if (item) {
+        item.qty += delta;
+        if (item.qty <= 0) {
+          cart = cart.filter(i => !(i.id === id && i.variant === variant));
+        }
+      }
+      updateCartUI();
+    }
+
+    function removeFromCart(id, variant) {
+      cart = cart.filter(i => !(i.id === id && i.variant === variant));
+      updateCartUI();
+      showToast("Item removed from cart");
+    }
+
+    function updateCartUI() {
+      const badge = document.getElementById('cartBadge');
+      const list = document.getElementById('cartItemsList');
+      const subtotalEl = document.getElementById('cartSubtotal');
+      const totalEl = document.getElementById('cartGrandTotal');
+
+      const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+      badge.innerText = totalItems;
+
+      if (cart.length === 0) {
+        list.innerHTML = `
+          <div class="text-center py-12 text-gray-400">
+            <i class="fa-solid fa-cart-arrow-down text-5xl mb-3"></i>
+            <p class="text-sm font-semibold">Your cart is empty!</p>
+            <p class="text-xs">Add products and checkout via WhatsApp easily.</p>
+          </div>
+        `;
+        subtotalEl.innerText = `৳0`;
+        totalEl.innerText = `৳0`;
+        return;
+      }
+
+      list.innerHTML = cart.map(item => `
+        <div class="py-3 flex items-center justify-between gap-3">
+          <img src="${item.image}" class="w-14 h-14 object-contain rounded-xl border bg-gray-50 p-1">
+          <div class="flex-1">
+            <h4 class="text-xs font-bold text-gray-800 line-clamp-1">${item.title}</h4>
+            <span class="text-[10px] text-gray-500">Variant: ${item.variant}</span>
+            <div class="text-xs font-black text-saltanix-orange mt-0.5">৳${item.price}</div>
+          </div>
+          
+          <div class="flex items-center space-x-2">
+            <div class="flex items-center border rounded-lg">
+              <button onclick="updateCartQty(${item.id}, '${item.variant}', -1)" class="px-2 py-0.5 text-xs bg-gray-100 hover:bg-gray-200">-</button>
+              <span class="px-2 text-xs font-bold">${item.qty}</span>
+              <button onclick="updateCartQty(${item.id}, '${item.variant}', 1)" class="px-2 py-0.5 text-xs bg-gray-100 hover:bg-gray-200">+</button>
+            </div>
+            <button onclick="removeFromCart(${item.id}, '${item.variant}')" class="text-gray-400 hover:text-red-500 text-xs p-1">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+      const delivery = subtotal > 0 ? 60 : 0;
+      const grandTotal = Math.max(0, subtotal + delivery - appliedDiscount);
+
+      subtotalEl.innerText = `৳${subtotal}`;
+      document.getElementById('cartDelivery').innerText = `৳${delivery}`;
+      totalEl.innerText = `৳${grandTotal}`;
+      document.getElementById('checkoutPayable').innerText = `৳${grandTotal}`;
+    }
+
+    function applyVoucher() {
+      const code = document.getElementById('voucherCode').value.trim().toUpperCase();
+      if (code === 'SALTANIX100' || code === 'FREEBD') {
+        appliedDiscount = 100;
+        document.getElementById('voucherDiscountRow').classList.remove('hidden');
+        showToast("Voucher Applied! ৳100 Discount Added.");
+      } else {
+        showToast("Invalid Promo Code!", "error");
+      }
+      updateCartUI();
+    }
+
+    function toggleCartDrawer() {
+      const drawer = document.getElementById('cartDrawer');
+      const overlay = document.getElementById('cartDrawerOverlay');
+
+      drawer.classList.toggle('translate-x-full');
+      overlay.classList.toggle('opacity-0');
+      overlay.classList.toggle('pointer-events-none');
+    }
+
+    // --- WISHLIST LOGIC ---
+    function toggleWishlistItem(id) {
+      if (wishlist.includes(id)) {
+        wishlist = wishlist.filter(item => item !== id);
+        showToast("Removed from Wishlist");
+      } else {
+        wishlist.push(id);
+        showToast("Added to Wishlist!");
+      }
+      updateWishlistUI();
+      renderProducts();
+    }
+
+    function updateWishlistUI() {
+      const badge = document.getElementById('wishlistBadge');
+      const list = document.getElementById('wishlistItemsList');
+
+      if (wishlist.length > 0) {
+        badge.innerText = wishlist.length;
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
+
+      const wishProducts = PRODUCTS.filter(p => wishlist.includes(p.id));
+
+      if (wishProducts.length === 0) {
+        list.innerHTML = `<p class="text-center text-xs text-gray-500 py-8">Your wishlist is empty!</p>`;
+        return;
+      }
+
+      list.innerHTML = wishProducts.map(p => `
+        <div class="py-3 flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <img src="${p.image}" class="w-12 h-12 object-contain rounded-xl border bg-gray-50 p-1">
+            <div>
+              <h4 class="text-xs font-bold text-gray-800 line-clamp-1">${p.title}</h4>
+              <div class="text-xs font-black text-saltanix-orange">৳${p.price}</div>
+            </div>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="addToCart(${p.id})" class="bg-saltanix-orange text-white text-xs px-3 py-1.5 rounded-xl hover:bg-saltanix-orangeDark">Move to Cart</button>
+            <button onclick="toggleWishlistItem(${p.id})" class="text-gray-400 hover:text-red-500"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function toggleWishlistModal() {
+      const modal = document.getElementById('wishlistModal');
+      modal.classList.toggle('opacity-0');
+      modal.classList.toggle('pointer-events-none');
+    }
+
+    // --- CHECKOUT & WHATSAPP REDIRECT ---
+    function proceedToCheckout() {
+      if (cart.length === 0) {
+        showToast("Your cart is empty!", "error");
+        return;
+      }
+      const drawer = document.getElementById('cartDrawer');
+      const overlay = document.getElementById('cartDrawerOverlay');
+      drawer.classList.add('translate-x-full');
+      overlay.classList.add('opacity-0', 'pointer-events-none');
+
+      const modal = document.getElementById('checkoutModal');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+    }
+
+    function closeCheckoutModal() {
+      const modal = document.getElementById('checkoutModal');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+    }
+
+    function sendWhatsAppOrder(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('custName').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
+      const address = document.getElementById('custAddress').value.trim();
+      const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+      const delivery = subtotal > 0 ? 60 : 0;
+      const grandTotal = Math.max(0, subtotal + delivery - appliedDiscount);
+
+      // Build WhatsApp Message
+      let msg = `🛒 *NEW ORDER FROM SALTANIX.CYOU*\n`;
+      msg += `-----------------------------------\n`;
+      msg += `📦 *Items Ordered:*\n`;
+
+      cart.forEach((item, index) => {
+        msg += `${index + 1}. *${item.title}*\n`;
+        msg += `   • Variant: ${item.variant}\n`;
+        msg += `   • Quantity: ${item.qty}\n`;
+        msg += `   • Price: ৳${item.price} x ${item.qty} = ৳${item.price * item.qty}\n\n`;
+      });
+
+      msg += `-----------------------------------\n`;
+      msg += `💵 Subtotal: ৳${subtotal}\n`;
+      msg += `🚚 Delivery Fee: ৳${delivery}\n`;
+      if (appliedDiscount > 0) {
+        msg += `🏷️ Discount Applied: -৳${appliedDiscount}\n`;
+      }
+      msg += `💰 *Total Payable Amount: ৳${grandTotal}*\n`;
+      msg += `-----------------------------------\n`;
+      msg += `👤 *Customer Details:*\n`;
+      msg += `• Name: ${name}\n`;
+      msg += `• Phone: ${phone}\n`;
+      msg += `• Address: ${address}\n`;
+      msg += `• Payment Method: ${paymentMethod}\n`;
+      msg += `-----------------------------------\n`;
+      msg += `Website: https://saltanix.cyou`;
+
+      const encodedMsg = encodeURIComponent(msg);
+      const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMsg}`;
+
+      // Open WhatsApp
+      window.open(waUrl, '_blank');
+
+      closeCheckoutModal();
+      showToast("Order details sent to WhatsApp!");
+
+      // Clear Cart
+      cart = [];
+      appliedDiscount = 0;
+      document.getElementById('voucherDiscountRow').classList.add('hidden');
+      updateCartUI();
+    }
+
+    // --- AUTH MODAL ---
+    function toggleAuthModal() {
+      const modal = document.getElementById('authModal');
+      modal.classList.toggle('opacity-0');
+      modal.classList.toggle('pointer-events-none');
+    }
+
+    function handleAuthSubmit(e) {
+      e.preventDefault();
+      toggleAuthModal();
+      showToast("Logged in successfully!");
+    }
+
+    // --- UTILITIES ---
+    function copyPromoCode(code) {
+      navigator.clipboard.writeText(code);
+      showToast(`Promo Code "${code}" copied!`);
+    }
+
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      
+      const bgColor = type === 'error' ? 'bg-red-600' : 'bg-saltanix-navy';
+      
+      toast.className = `${bgColor} text-white text-xs font-semibold px-4 py-3 rounded-2xl shadow-2xl flex items-center space-x-2 transition transform translate-y-2 opacity-0`;
+      toast.innerHTML = `
+        <i class="${type === 'error' ? 'fa-solid fa-triangle-exclamation text-yellow-400' : 'fa-solid fa-circle-check text-green-400'}"></i>
+        <span>${message}</span>
+      `;
+
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-2', 'opacity-0');
+      }, 50);
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+  </script>
 </body>
 </html>
 
